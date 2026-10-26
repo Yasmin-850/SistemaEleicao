@@ -1,9 +1,8 @@
-﻿
 using SistemaEleicao.ConsoleApp;
 
 namespace SistemaEleicao.Tests;
 
-public class CandidatoTests
+public class EleicaoManagerTests
 {
     [Fact]
     public void CadastrarCandidato_ComNumeroNovo_DeveRetornarVerdadeiro()
@@ -26,5 +25,28 @@ public class CandidatoTests
 
         Assert.False(resultado);
         Assert.Single(eleicao.Candidatos);
+    }
+
+    [Fact]
+    public void CadastrarEleitor_ComTituloNovo_DeveRetornarVerdadeiro()
+    {
+        var eleicao = new EleicaoManager();
+
+        bool resultado = eleicao.CadastrarEleitor("Maria", "123456");
+
+        Assert.True(resultado);
+        Assert.Single(eleicao.Eleitores);
+    }
+
+    [Fact]
+    public void CadastrarEleitor_ComTituloDuplicado_DeveRetornarFalso()
+    {
+        var eleicao = new EleicaoManager();
+
+        eleicao.CadastrarEleitor("Maria", "123456");
+        bool resultado = eleicao.CadastrarEleitor("Joao", "123456");
+
+        Assert.False(resultado);
+        Assert.Single(eleicao.Eleitores);
     }
 }
