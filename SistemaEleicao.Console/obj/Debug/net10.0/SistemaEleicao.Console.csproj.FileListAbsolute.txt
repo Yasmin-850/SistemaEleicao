@@ -1,0 +1,14 @@
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\bin\Debug\net10.0\SistemaEleicao.Console.exe
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\bin\Debug\net10.0\SistemaEleicao.Console.deps.json
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\bin\Debug\net10.0\SistemaEleicao.Console.runtimeconfig.json
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\bin\Debug\net10.0\SistemaEleicao.Console.dll
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\bin\Debug\net10.0\SistemaEleicao.Console.pdb
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\obj\Debug\net10.0\SistemaEleicao.Console.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\obj\Debug\net10.0\SistemaEleicao.Console.AssemblyInfoInputs.cache
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\obj\Debug\net10.0\SistemaEleicao.Console.AssemblyInfo.cs
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\obj\Debug\net10.0\SistemaEleicao.Console.csproj.CoreCompileInputs.cache
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\obj\Debug\net10.0\SistemaEleicao.Console.dll
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\obj\Debug\net10.0\refint\SistemaEleicao.Console.dll
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\obj\Debug\net10.0\SistemaEleicao.Console.pdb
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\obj\Debug\net10.0\SistemaEleicao.Console.genruntimeconfig.cache
+C:\Users\yasmin.paula\SistemaEleicao\SistemaEleicao.Console\obj\Debug\net10.0\ref\SistemaEleicao.Console.dll
