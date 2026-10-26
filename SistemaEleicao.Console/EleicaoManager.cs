@@ -57,18 +57,21 @@ public class EleicaoManager
 
         // Verifica se o candidato existe
         if (!nulo && numeroCandidato.HasValue &&
-            !_candidatos.Any(c => c.Numero == numeroCandidato.Value))
-            return false;
+    !_candidatos.Any(c => c.Numero == numeroCandidato.Value))
+    {
+         numeroCandidato = null;
+         nulo = true;
+    }
 
         _votos.Add(new Voto(tituloEleitor, numeroCandidato, nulo));
         eleitor.RegistrarVoto();
 
         return true;
-    }
+        }
 
     // Apurar os resultados da eleição
     public ResultadoEleicao ApurarVotos()
-    {
+        {
         var votosPorCandidato = new Dictionary<string, int>();
 
         // Conta os votos recebidos por cada candidato

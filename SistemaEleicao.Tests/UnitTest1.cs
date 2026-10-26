@@ -1,18 +1,19 @@
 
 using SistemaEleicao.ConsoleApp;
+using Xunit;
 
 namespace SistemaEleicao.Tests;
 
-public class EleicaoManagerTests
+public class UnitTest1
 {
-    // TESTES DE CADASTRO DE CANDIDATOS
-
     [Fact]
     public void CadastrarCandidato_ComNumeroNovo_DeveRetornarVerdadeiro()
     {
         var eleicao = new EleicaoManager();
 
-        Assert.True(eleicao.CadastrarCandidato("Ana", 10));
+        bool resultado = eleicao.CadastrarCandidato("João", 10);
+
+        Assert.True(resultado);
         Assert.Single(eleicao.Candidatos);
     }
 
@@ -21,20 +22,21 @@ public class EleicaoManagerTests
     {
         var eleicao = new EleicaoManager();
 
-        eleicao.CadastrarCandidato("Ana", 10);
+        eleicao.CadastrarCandidato("João", 10);
+        bool resultado = eleicao.CadastrarCandidato("Maria", 10);
 
-        Assert.False(eleicao.CadastrarCandidato("Bruno", 10));
+        Assert.False(resultado);
         Assert.Single(eleicao.Candidatos);
     }
-
-    // TESTES DE CADASTRO DE ELEITORES
 
     [Fact]
     public void CadastrarEleitor_ComTituloNovo_DeveRetornarVerdadeiro()
     {
         var eleicao = new EleicaoManager();
 
-        Assert.True(eleicao.CadastrarEleitor("Maria", "123456"));
+        bool resultado = eleicao.CadastrarEleitor("Maria", "123456");
+
+        Assert.True(resultado);
         Assert.Single(eleicao.Eleitores);
     }
 
@@ -44,23 +46,26 @@ public class EleicaoManagerTests
         var eleicao = new EleicaoManager();
 
         eleicao.CadastrarEleitor("Maria", "123456");
+        bool resultado = eleicao.CadastrarEleitor("João", "123456");
 
-        Assert.False(eleicao.CadastrarEleitor("Joao", "123456"));
+        Assert.False(resultado);
         Assert.Single(eleicao.Eleitores);
     }
-
-    // TESTES DE VOTAÇÃO
 
     [Fact]
     public void Votar_ComCandidatoValido_DeveRegistrarVoto()
     {
         var eleicao = new EleicaoManager();
 
-        eleicao.CadastrarCandidato("Ana", 10);
+        eleicao.CadastrarCandidato("João", 10);
         eleicao.CadastrarEleitor("Maria", "123456");
 
-        Assert.True(eleicao.Votar("123456", 10));
+        bool resultado = eleicao.Votar("123456", 10);
+
+        Assert.True(resultado);
         Assert.Single(eleicao.Votos);
+        Assert.False(eleicao.Votos[0].Nulo);
+        Assert.Equal(10, eleicao.Votos[0].NumeroCandidato);
     }
 
     [Fact]
@@ -68,11 +73,14 @@ public class EleicaoManagerTests
     {
         var eleicao = new EleicaoManager();
 
-        eleicao.CadastrarCandidato("Ana", 10);
+        eleicao.CadastrarCandidato("João", 10);
         eleicao.CadastrarEleitor("Maria", "123456");
 
-        Assert.True(eleicao.Votar("123456", 10));
-        Assert.False(eleicao.Votar("123456", 10));
+        bool primeiroVoto = eleicao.Votar("123456", 10);
+        bool segundoVoto = eleicao.Votar("123456", 10);
+
+        Assert.True(primeiroVoto);
+        Assert.False(segundoVoto);
         Assert.Single(eleicao.Votos);
     }
 
@@ -81,9 +89,11 @@ public class EleicaoManagerTests
     {
         var eleicao = new EleicaoManager();
 
-        eleicao.CadastrarCandidato("Ana", 10);
+        eleicao.CadastrarCandidato("João", 10);
 
-        Assert.False(eleicao.Votar("999999", 10));
+        bool resultado = eleicao.Votar("999999", 10);
+
+        Assert.False(resultado);
         Assert.Empty(eleicao.Votos);
     }
 
@@ -94,7 +104,10 @@ public class EleicaoManagerTests
 
         eleicao.CadastrarEleitor("Maria", "123456");
 
-        Assert.True(eleicao.Votar("123456", null));
+        bool resultado = eleicao.Votar("123456", null);
+
+        Assert.True(resultado);
+        Assert.Single(eleicao.Votos);
         Assert.Null(eleicao.Votos[0].NumeroCandidato);
         Assert.False(eleicao.Votos[0].Nulo);
     }
@@ -106,44 +119,46 @@ public class EleicaoManagerTests
 
         eleicao.CadastrarEleitor("Maria", "123456");
 
-        Assert.True(eleicao.Votar("123456", null, true));
+        bool resultado = eleicao.Votar("123456", null, true);
+
+        Assert.True(resultado);
+        Assert.Single(eleicao.Votos);
         Assert.True(eleicao.Votos[0].Nulo);
     }
 
     [Fact]
-    public void Votar_ComNumeroDeCandidatoInexistente_DeveRetornarFalso()
+    public void Votar_ComNumeroDeCandidatoInexistente_DeveRegistrarVotoNulo()
     {
         var eleicao = new EleicaoManager();
 
         eleicao.CadastrarEleitor("Maria", "123456");
 
-        Assert.False(eleicao.Votar("123456", 99));
-        Assert.Empty(eleicao.Votos);
-    }
+        bool resultado = eleicao.Votar("123456", 99);
 
-    // TESTES DE APURAÇÃO DOS RESULTADOS
+        Assert.True(resultado);
+        Assert.Single(eleicao.Votos);
+        Assert.True(eleicao.Votos[0].Nulo);
+        Assert.Null(eleicao.Votos[0].NumeroCandidato);
+    }
 
     [Fact]
     public void ApurarVotos_DeveContarVotosPorCandidato()
     {
         var eleicao = new EleicaoManager();
 
-        eleicao.CadastrarCandidato("Ana", 10);
-        eleicao.CadastrarCandidato("Bruno", 20);
+        eleicao.CadastrarCandidato("João", 10);
+        eleicao.CadastrarCandidato("Maria", 20);
+        eleicao.CadastrarEleitor("Ana", "111111");
+        eleicao.CadastrarEleitor("Pedro", "222222");
 
-        eleicao.CadastrarEleitor("Maria", "111");
-        eleicao.CadastrarEleitor("Joao", "222");
-        eleicao.CadastrarEleitor("Pedro", "333");
+        eleicao.Votar("111111", 10);
+        eleicao.Votar("222222", 10);
 
-        eleicao.Votar("111", 10);
-        eleicao.Votar("222", 10);
-        eleicao.Votar("333", 20);
+        ResultadoEleicao resultado = eleicao.ApurarVotos();
 
-        var resultado = eleicao.ApurarVotos();
-
-        Assert.Equal(2, resultado.VotosPorCandidato["Ana (10)"]);
-        Assert.Equal(1, resultado.VotosPorCandidato["Bruno (20)"]);
-        Assert.Equal("Ana (10)", resultado.Vencedor);
+        Assert.Equal(2, resultado.VotosPorCandidato["João (10)"]);
+        Assert.Equal(0, resultado.VotosPorCandidato["Maria (20)"]);
+        Assert.Equal("João (10)", resultado.Vencedor);
         Assert.False(resultado.HouveEmpate);
     }
 
@@ -152,16 +167,19 @@ public class EleicaoManagerTests
     {
         var eleicao = new EleicaoManager();
 
-        eleicao.CadastrarEleitor("Maria", "111");
-        eleicao.CadastrarEleitor("Joao", "222");
+        eleicao.CadastrarCandidato("João", 10);
+        eleicao.CadastrarEleitor("Ana", "111111");
+        eleicao.CadastrarEleitor("Pedro", "222222");
+        eleicao.CadastrarEleitor("Maria", "333333");
 
-        eleicao.Votar("111", null);
-        eleicao.Votar("222", null, true);
+        eleicao.Votar("111111", null);
+        eleicao.Votar("222222", null, true);
+        eleicao.Votar("333333", 99);
 
-        var resultado = eleicao.ApurarVotos();
+        ResultadoEleicao resultado = eleicao.ApurarVotos();
 
         Assert.Equal(1, resultado.VotosEmBranco);
-        Assert.Equal(1, resultado.VotosNulos);
+        Assert.Equal(2, resultado.VotosNulos);
     }
 
     [Fact]
@@ -169,16 +187,15 @@ public class EleicaoManagerTests
     {
         var eleicao = new EleicaoManager();
 
-        eleicao.CadastrarCandidato("Ana", 10);
-        eleicao.CadastrarCandidato("Bruno", 20);
+        eleicao.CadastrarCandidato("João", 10);
+        eleicao.CadastrarCandidato("Maria", 20);
+        eleicao.CadastrarEleitor("Ana", "111111");
+        eleicao.CadastrarEleitor("Pedro", "222222");
 
-        eleicao.CadastrarEleitor("Maria", "111");
-        eleicao.CadastrarEleitor("Joao", "222");
+        eleicao.Votar("111111", 10);
+        eleicao.Votar("222222", 20);
 
-        eleicao.Votar("111", 10);
-        eleicao.Votar("222", 20);
-
-        var resultado = eleicao.ApurarVotos();
+        ResultadoEleicao resultado = eleicao.ApurarVotos();
 
         Assert.True(resultado.HouveEmpate);
         Assert.Null(resultado.Vencedor);
